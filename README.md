@@ -31,6 +31,7 @@ __Workfile__ is inspired by that instinct.
 - **Priority** : A descriptive word to define the intensity of a job eg. high, low, etc
 
 ## Tokens
+Tokens define the grammar of a workfile.
 
 
 ## Parser
