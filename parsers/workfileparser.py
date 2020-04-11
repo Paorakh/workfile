@@ -13,19 +13,17 @@ except IndexError:
 except IOError:
 	raise ValueError("Unable to open / read the file")
 
-tokens='(@u:|@g:)\>\/#!\-'
-regex = f'^\s*([{tokens}]+)\s*(.*)$'
-reparser = re.compile(regex)
-
 class Project:
 	name = None
+	namespace = None
 	users = []
 	groups = []
 	milestones = []
 	deadline = None
 	desc = []
 
-	def __init__(self, name=None, users=[], groups=[], milestones=[], deadline=None, desc=[]):
+	def __init__(self, namespace=None, name=None, users=[], groups=[], milestones=[], deadline=None, desc=[]):
+		self.namespace = namespace
 		self.name = name
 		self.users = users
 		self.groups = groups
@@ -34,7 +32,7 @@ class Project:
 		self.desc = desc
 
 	def serialize(self):
-		dump = dict(name=self.name, users=self.users, groups=self.groups, milestones=[], deadline=self.deadline, desc="\n".join(self.desc))
+		dump = dict(namespace=self.namespace, name=self.name, users=self.users, groups=self.groups, milestones=[], deadline=self.deadline, desc="\n".join(self.desc))
 		for m in self.milestones:
 			dump['milestones'].append(m.serialize())
 
@@ -84,32 +82,69 @@ class Task:
 
 	def serialize(self):
 		dump = dict(name=self.name, users=self.users, groups=self.groups, deadline=self.deadline, priority=self.priority, desc="\n".join(self.desc), subtasks=[])
-		for t in self.subtasks:
-			self.subtasks.append(t.serialize())
+		if self.subtasks:
+			for t in self.subtasks:
+				dump['subtasks'].append(t.serialize())
 		return dump
 
 class TokenParser:
 	project = None
 	milestone = None
 	task = None
-	tokens = {
+
+	TOKENS = {
 		'@u:' : 'users',
 		'@g:' : 'groups',
-		'##' : 'priority',
-		'#' : 'milestones',
-		'/' : 'project',
+		'$' : 'priority',
+		'##' : 'milestones',
+		'#' : 'project',
 		'>' : 'deadline',
-		'!' : 'desc',
-		'-' : 'tasks'
+		'-' : 'tasks', 
+		'--' : 'subtasks'
 	}
+
+	_PARSER = None
 
 	def __init__(self):
 		self.project = Project()
 
-	def do(self, token, data):
+	@property
+	def regex_parser(self):
+		if self._PARSER is not None:
+			return self._PARSER
+
+		TOKENS_REGEX='(@u:|@g:)\>(#|##)\!\-(\s+\-)\$'
+		REGEX = f'^([{TOKENS_REGEX}]+)\s*(.*)$'
+		self._PARSER = re.compile(REGEX)
+
+		return self._PARSER
+
+	def run_parser(self, workdoc):
+		for line in workdoc.readlines():
+			cline = line.rstrip()
+			if not cline:
+				continue
+			
+			matches = self.regex_parser.match(cline)
+			if not matches:
+				token = "desc"
+				data = cline
+			else:	
+				switch, data = matches.groups()
+				token = self.TOKENS.get(switch.rstrip())
+
+				# Markdown compatibility for subtasks
+				if token is None:
+					token = "subtasks"
+
+			self.process(token, data)
+	
+		self.finalize()
+		return self.project.serialize()
+
+	def process(self, token, data):
 		if token is None:
 			return
-		print(token, "===", data)
 		token_fn = getattr(self, f"process_{token}")
 		if token != 'project' and self.project.name is None:
 			raise ValueError("Project needs to be defined first")
@@ -120,7 +155,14 @@ class TokenParser:
 		if self.project.name is not None:
 			raise ValueError("Project already defined")
 
-		self.project.name = data
+		if "/" in data:
+			namespace, name = data.split("/", 2)
+		else:
+			namespace = None
+			name = data
+
+		self.project.name = name.strip()
+		self.project.namespace = namespace.strip()
 
 	def _process_usergroup_scope(self, user_or_group):
 		if self.milestone:
@@ -146,6 +188,11 @@ class TokenParser:
 		if self.task:		
 			self.milestone.tasks.append(self.task)
 		self.task = Task(name=data)
+
+	def process_subtasks(self, data):
+		if not self.task:
+			raise ValueError("A subtask needs a parent task")
+		self.task.subtasks.append(Task(name=data, subtasks=None))
 
 	def process_milestones(self, data):
 		if self.milestone:
@@ -184,22 +231,7 @@ class TokenParser:
 
 		self.project.milestones.append(self.milestone)
 
-def parse_doc(tokenparser):
-	for line in workdoc.readlines():
-		cline = line.strip()
-		matches = reparser.match(cline)
-		if not matches:
-			continue
-	
-		switch, data = matches.groups()
-
-		token = TokenParser.tokens.get(switch)
-		tokenparser.do(token, data)
-
-	tokenparser.finalize()
-	return tokenparser.project.serialize()
-
 tokenparser = TokenParser()
-project_dump = parse_doc(tokenparser)
-
-print(project_dump)
+project_dump = tokenparser.run_parser(workdoc)
+import json
+print(json.dumps(project_dump, indent=2))
