@@ -32,6 +32,17 @@ __Workfile__ is inspired by that instinct.
 
 ## Tokens
 Tokens define the grammar of a workfile.
+| Workfile Token 	| Corresponding project parameter 	| Query Params 	|
+|----------------	|-----------------------------------------------	|----------------------------------------------------------------------------	|
+| / 	| Namespace or Project Name 	| /Sysadmin/Hardware Upgrade and Migration 	|
+| @u: 	| User, whom the task / project is assigned to 	| @u:johndoe 	|
+| @g: 	| Group, whom the task / project is assigned to 	| @g:sysadmin 	|
+| > 	| Starting date or Deadline 	| > 2020-04-11 > 2020-04-30 	|
+| ! 	| A line in any paragraph (desc) 	| ! This project describes ... etc ! This is another line in the description 	|
+| # 	| Milestone 	| # Hardware Procurement 	|
+| ## 	| Priority 	| ## High 	|
+| - 	| A task 	| - Vendor Finalizing 	|
+| -- 	| A subtask 	| - Vendor Finalizing -- Vendor Assessment -- Ask for quotations 	|
 
 
 ## Parser
