@@ -13,6 +13,8 @@ It is a long established fact that a reader will be distracted by the readable c
 - Search internet for the lorems
 - Search internet for the ipsums
 - Compile the Lorems and Compile the Ipsums
-    - Generate the possible combinations of Lorems and Ipsums
-    - Generate the possible permutations of Lorems and Ipsums
-
+	- Generate the possible combinations of Lorems and Ipsums
+	- Generate the possible permutations of Lorems and Ipsums
+- Another task with subtask
+	- subtask 2.1
+	- subtask 2.2

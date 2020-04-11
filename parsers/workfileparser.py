@@ -89,8 +89,7 @@ class Task:
 
 class TokenParser:
 	project = None
-	milestone = None
-	task = None
+	last_context = None	
 
 	TOKENS = {
 		'@u:' : 'users',
@@ -138,6 +137,9 @@ class TokenParser:
 					token = "subtasks"
 
 			self.process(token, data)
+
+		import pdb
+		pdb.set_trace()
 	
 		self.finalize()
 		return self.project.serialize()
@@ -164,6 +166,8 @@ class TokenParser:
 		self.project.name = name.strip()
 		self.project.namespace = namespace.strip()
 
+		self.last_context = "project"
+
 	def _process_usergroup_scope(self, user_or_group):
 		if self.milestone:
 			scope = self.task if self.task else self.milestone
@@ -187,16 +191,19 @@ class TokenParser:
 
 		if self.task:		
 			self.milestone.tasks.append(self.task)
+			del self.task
 		self.task = Task(name=data)
 
 	def process_subtasks(self, data):
 		if not self.task:
 			raise ValueError("A subtask needs a parent task")
+		print("-=", self.task, data)
 		self.task.subtasks.append(Task(name=data, subtasks=None))
 
 	def process_milestones(self, data):
 		if self.milestone:
 			self.project.milestones.append(self.milestone)
+			del self.milestone
 
 		self.milestone = Milestone(name=data)
 	
