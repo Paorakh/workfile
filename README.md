@@ -17,7 +17,18 @@ __Workfile__ is inspired by that instinct.
 - A workfile is written in a simple text format very much inspired by the markdown format.
 - A workfile has its extension .work
 - Each line in a workfile has a distinct purpose. It has to be one of the variables that defines a project
-- The spec follows the syntax as __TOKEN_CHARACTER__ **Corresponding information**
+- The spec follows the syntax as __TOKEN_CHARACTER__ <space> *Corresponding information* eg. `/ Namespace / Project Name`, `@u:username`, etc
+- Multiline description is supported. Each line starting with a `!` (bang) represents the description and supported by projects, tasks and milestones
+  
+## Terminology
+- **Namespace** : Department or something similar
+- **Project** : The project (the macro definition of what needs to be done) in few words
+- **deadline** : The last day to finish something
+- **Milestone** : Usually a checklist with deadline
+- **Task** : A smallest unit of job to be finished 
+- **Users** : Direct members involved in a project, milestone or task eg. @johndoe
+- **Groups** : The set of predefined members involved in a project eg. managers
+- **Priority** : A descriptive word to define the intensity of a job eg. high, low, etc
 
 ## Tokens
 
