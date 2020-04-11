@@ -75,5 +75,4 @@ Some of the sample workfiles are available in this repo. A simple workfile looks
 ```
 
 # Supported By
--
 Workfile is waiting to have you and your company name to be written below.
