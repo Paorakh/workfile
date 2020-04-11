@@ -50,6 +50,30 @@ Few parsers available. Looking for contributors who find .workfile as one good w
 - Python (workfileparser.py)
 - PHP (workfileparser.php)
 
+## Sample workfile
+Some of the sample workfiles are available in this repo. A simple workfile looks like :
+```
+/Namespace/ProjectName
+@u:someuser
+@g:somegroup
+> startdate > deadline
+
+# A milestone
+## Priority
+! Project description text ...
+! Project description text second line
+! project description text third line
+- Task 1
+- Task 2
+- Task 3
+
+# Another milestone
+> milestone-deadline
+! milestone description text (singleline)
+- Task 1
+- Task 2
+```
+
 # Supported By
 -
 Workfile is waiting to have you and your company name to be written below.
