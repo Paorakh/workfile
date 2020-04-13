@@ -242,29 +242,11 @@ export var TokenParser =  __class__ ('TokenParser', [object], {
 	});}
 });
 Object.defineProperty (TokenParser, 'regex_parser', property.call (TokenParser, TokenParser._get_regex_parser));;
-if (__name__ == '__main__') {
-	try {
-		var workfile = sys.argv [1];
-		var workdoc = open (workfile, 'r');
-	}
-	catch (__except0__) {
-		if (isinstance (__except0__, IndexError)) {
-			var __except1__ = ValueError ('Please provide a .work file');
-			__except1__.__cause__ = null;
-			throw __except1__;
-		}
-		else if (isinstance (__except0__, IOError)) {
-			var __except1__ = ValueError ('Unable to open / read the file');
-			__except1__.__cause__ = null;
-			throw __except1__;
-		}
-		else {
-			throw __except0__;
-		}
-	}
-	var tokenparser = TokenParser ();
-	var project_dump = tokenparser.parse (workdoc);
-	print (project_dump);
-}
+
+// Example
+/**
+var parser = Tokenparser();
+parser.parse("# Namespace / Project \n @u:someuser")
+**/
 
 //# sourceMappingURL=workfileparser.map
