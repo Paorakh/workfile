@@ -34,15 +34,15 @@ __Workfile__ is inspired by that instinct.
 Tokens define the grammar of a workfile.
 | Workfile Token 	| Corresponding project parameter 	| Query Params 	|
 |----------------	|-----------------------------------------------	|----------------------------------------------------------------------------	|
-| / 	| Namespace or Project Name 	| /Sysadmin/Hardware Upgrade and Migration 	|
+| # 	| Namespace or Project Name 	| # Sysadmin / Hardware Upgrade and Migration 	|
 | @u: 	| User, whom the task / project is assigned to 	| @u:johndoe 	|
 | @g: 	| Group, whom the task / project is assigned to 	| @g:sysadmin 	|
 | > 	| Starting date or Deadline 	| > 2020-04-11 > 2020-04-30 	|
-| ! 	| A line in any paragraph (desc) 	| ! This project describes ... etc ! This is another line in the description 	|
-| # 	| Milestone 	| # Hardware Procurement 	|
-| ## 	| Priority 	| ## High 	|
+| 	  | A line in any paragraph (desc) 	| (No token means a description text). ... 	|
+| ## 	| Milestone 	| ## Hardware Procurement 	|
+| $ 	| Priority 	| $ High 	|
 | - 	| A task 	| - Vendor Finalizing 	|
-| -- 	| A subtask 	| - Vendor Finalizing -- Vendor Assessment -- Ask for quotations 	|
+|  - 	| A subtask 	| (should begin with a whitespace) - Vendor Assessment |
 
 
 ## Parser
@@ -53,23 +53,29 @@ Few parsers available. Looking for contributors who find .workfile as one good w
 ## Sample workfile
 Some of the sample workfiles are available in this repo. A simple workfile looks like :
 ```
-/Namespace/ProjectName
+# Namespace/ProjectName
 @u:someuser
 @g:somegroup
 > startdate > deadline
 
-# A milestone
-## Priority
-! Project description text ...
-! Project description text second line
-! project description text third line
+## A milestone
+$ Priority
+Project description text ...
+Project description text second line
+project description text third line
+
+* Tasks
 - Task 1
 - Task 2
 - Task 3
 
-# Another milestone
+## Another milestone
 > milestone-deadline
-! milestone description text (singleline)
+
+* Desc
+milestone description text (singleline)
+
+* Tasks
 - Task 1
 - Task 2
 ```
