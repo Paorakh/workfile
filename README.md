@@ -42,7 +42,7 @@ Tokens define the grammar of a workfile.
 | ## 	| Milestone 	| ## Hardware Procurement 	|
 | $ 	| Priority 	| $ High 	|
 | - 	| A task 	| - Vendor Finalizing 	|
-|  - 	| A subtask 	| (should begin with a whitespace) - Vendor Assessment |
+| `whitespace (space or tab)` - 	| A subtask 	| (should begin with a whitespace) - Vendor Assessment |
 
 
 ## Parser
