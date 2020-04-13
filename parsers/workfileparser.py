@@ -3,15 +3,8 @@
 import os
 import re
 import sys
+import json
 import collections
-
-try:
-	workfile = sys.argv[1]
-	workdoc = open(workfile, "r")
-except IndexError:
-	raise ValueError("Please provide a .work file")
-except IOError:
-	raise ValueError("Unable to open / read the file")
 
 class Project:
 	name = None
@@ -124,7 +117,7 @@ class TokenParser:
 
 		return self._PARSER
 
-	def run_parser(self, workdoc):
+	def parse(self, workdoc):
 		for line in workdoc.readlines():
 			cline = line.rstrip()
 			if not cline:
@@ -220,7 +213,15 @@ class TokenParser:
 	def process_desc(self, data):
 		self._update_active_context_node("desc", data)
 
-tokenparser = TokenParser()
-project_dump = tokenparser.run_parser(workdoc)
-import json
-print(json.dumps(project_dump, indent=2))
+if __name__ == "__main__":
+	try:
+		workfile = sys.argv[1]
+		workdoc = open(workfile, "r")
+	except IndexError:
+		raise ValueError("Please provide a .work file")
+	except IOError:
+		raise ValueError("Unable to open / read the file")
+
+	tokenparser = TokenParser()
+	project_dump = tokenparser.parse(workdoc)
+	print(json.dumps(project_dump, indent=2))
