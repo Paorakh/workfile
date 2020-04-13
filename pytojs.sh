@@ -1,2 +1,2 @@
 #!/bin/bash
-transcrypt -anv parsers/workfileparser.py
+transcrypt -nv parsers/workfileparser.py
