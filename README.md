@@ -38,7 +38,7 @@ Tokens define the grammar of a workfile.
 | @u: 	| User, whom the task / project is assigned to 	| @u:johndoe 	|
 | @g: 	| Group, whom the task / project is assigned to 	| @g:sysadmin 	|
 | > 	| Starting date or Deadline 	| > 2020-04-11 > 2020-04-30 	|
-| 	  | A line in any paragraph (desc) 	| (No token means a description text). ... 	|
+| `no token` | A line in any paragraph (desc) 	| (No token means a description text). ... 	|
 | ## 	| Milestone 	| ## Hardware Procurement 	|
 | $ 	| Priority 	| $ High 	|
 | - 	| A task 	| - Vendor Finalizing 	|
@@ -66,6 +66,8 @@ project description text third line
 
 * Tasks
 - Task 1
+  - subtask 1.1
+  - subtask 1.2
 - Task 2
 - Task 3
 
@@ -76,9 +78,19 @@ project description text third line
 milestone description text (singleline)
 
 * Tasks
-- Task 1
-- Task 2
+- Task 5
+- Task 6
+  - subtask 6.2
 ```
+
+## Limitations
+- Subtask don't support assignment, deadlines or any properties. Subtasks are simple checklists
+- Attachments currently unsupported, however one can use markdown embed any links as required
+
+## Compatibility with Markdown
+- Bolds, Italics are supported as is
+- Hyperlinks should work as is
+- Markdown and Workfile parsers need to be separately run. Desc blocks can me checked with markdown for more features and rich text supports
 
 # Supported By
 Workfile is waiting to have you and your company name to be written below.
