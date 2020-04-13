@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
-import os
 import re
 import sys
-import json
-import collections
 
 class Project:
 	name = None
@@ -224,4 +221,5 @@ if __name__ == "__main__":
 
 	tokenparser = TokenParser()
 	project_dump = tokenparser.parse(workdoc)
-	print(json.dumps(project_dump, indent=2))
+	print(project_dump)
+	#print(json.dumps(project_dump, indent=2))
