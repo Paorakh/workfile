@@ -53,6 +53,11 @@ Few parsers available. Looking for contributors who find .workfile as one good w
 ## Sample workfile
 Some of the sample workfiles are available in this repo. A simple workfile looks like :
 ```
+* A sample workfile
+* This is a comment
+* Comment is ignored by parsers
+* Comments start with a `*` character
+
 # Namespace/ProjectName
 @u:someuser
 @g:somegroup
