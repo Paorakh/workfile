@@ -17,8 +17,8 @@ __Workfile__ is inspired by that instinct.
 - A workfile is written in a simple text format very much inspired by the markdown format.
 - A workfile has its extension .work
 - Each line in a workfile has a distinct purpose. It has to be one of the variables that defines a project
-- The spec follows the syntax as __TOKEN_CHARACTER__ <space> *Corresponding information* eg. `/ Namespace / Project Name`, `@u:username`, etc
-- Multiline description is supported. Each line starting with a `!` (bang) represents the description and supported by projects, tasks and milestones
+- The spec follows the syntax as __TOKEN_CHARACTER__ <space> *Corresponding information* eg. `# Namespace / Project Name`, `@u:username`, etc
+- Multiline description is supported. Each line starting without any special token represents the description and description is supported by projects, tasks and milestones
   
 ## Terminology
 - **Namespace** : Department or something similar
@@ -34,15 +34,15 @@ __Workfile__ is inspired by that instinct.
 Tokens define the grammar of a workfile.
 | Workfile Token 	| Corresponding project parameter 	| Query Params 	|
 |----------------	|-----------------------------------------------	|----------------------------------------------------------------------------	|
-| / 	| Namespace or Project Name 	| /Sysadmin/Hardware Upgrade and Migration 	|
+| # 	| Namespace or Project Name 	| # Sysadmin / Hardware Upgrade and Migration 	|
 | @u: 	| User, whom the task / project is assigned to 	| @u:johndoe 	|
 | @g: 	| Group, whom the task / project is assigned to 	| @g:sysadmin 	|
 | > 	| Starting date or Deadline 	| > 2020-04-11 > 2020-04-30 	|
-| ! 	| A line in any paragraph (desc) 	| ! This project describes ... etc ! This is another line in the description 	|
-| # 	| Milestone 	| # Hardware Procurement 	|
-| ## 	| Priority 	| ## High 	|
+| `no token` | A line in any paragraph (desc) 	| (No token means a description text). ... 	|
+| ## 	| Milestone 	| ## Hardware Procurement 	|
+| $ 	| Priority 	| $ High 	|
 | - 	| A task 	| - Vendor Finalizing 	|
-| -- 	| A subtask 	| - Vendor Finalizing -- Vendor Assessment -- Ask for quotations 	|
+| `whitespace (space or tab)` - 	| A subtask 	| (should begin with a whitespace) - Vendor Assessment |
 
 
 ## Parser
@@ -53,26 +53,49 @@ Few parsers available. Looking for contributors who find .workfile as one good w
 ## Sample workfile
 Some of the sample workfiles are available in this repo. A simple workfile looks like :
 ```
-/Namespace/ProjectName
+* A sample workfile
+* This is a comment
+* Comment is ignored by parsers
+* Comments start with a `*` character
+
+# Namespace/ProjectName
 @u:someuser
 @g:somegroup
 > startdate > deadline
 
-# A milestone
-## Priority
-! Project description text ...
-! Project description text second line
-! project description text third line
+## A milestone
+$ Priority
+Project description text ...
+Project description text second line
+project description text third line
+
+* Tasks
 - Task 1
+  - subtask 1.1
+  - subtask 1.2
 - Task 2
 - Task 3
 
-# Another milestone
+## Another milestone
 > milestone-deadline
-! milestone description text (singleline)
-- Task 1
-- Task 2
+
+* Desc
+milestone description text (singleline)
+
+* Tasks
+- Task 5
+- Task 6
+  - subtask 6.2
 ```
+
+## Limitations
+- Subtask don't support assignment, deadlines or any properties. Subtasks are simple checklists
+- Attachments currently unsupported, however one can use markdown embed any links as required
+
+## Compatibility with Markdown
+- Bolds, Italics are supported as is
+- Hyperlinks should work as is
+- Markdown and Workfile parsers need to be separately run. Desc blocks can me checked with markdown for more features and rich text supports
 
 # Supported By
 Workfile is waiting to have you and your company name to be written below.
