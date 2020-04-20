@@ -89,7 +89,8 @@ class TokenParser:
 		'>' : 'deadline',
 		'-' : 'tasks', 
 		'--' : 'subtasks',
-		'*': 'comment'
+		'*': 'comment',
+		'**': 'comment' # In case * comment gets conflicted with the markdown, use ** as an alternate switch
 	}
 
 	_PARSER = None
@@ -108,7 +109,7 @@ class TokenParser:
 		if self._PARSER is not None:
 			return self._PARSER
 
-		TOKENS_REGEX='(@u:|@g:)\>(#|##)\!\*\-(\s+\-)\$'
+		TOKENS_REGEX='(@u:|@g:)\>(#|##)\!(\*\*?)\-(\s+\-)\$'
 		REGEX = f'^([{TOKENS_REGEX}]+)\s*(.*)$'
 		self._PARSER = re.compile(REGEX)
 
