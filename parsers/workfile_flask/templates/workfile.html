@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <title>Workfile - Sample App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel=stylesheet type='text/css' href='/static/style.css' />
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid jumbotron" style="padding:20px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <strong># Workfile parser</strong> / <small>Sample flask project</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="height:500px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <form class="form">
+                        <textarea id='workfile' class="form-control" style="height:500px">{{rawdata}}</textarea>
+                    </form>
+
+                </div>
+                <div class="col-md-6" id='parser_output'>
+                    {% include 'parsed_output.html' %}
+                </div>
+            </div>
+    </section>
+</body>
+<script type='text/javascript'>
+    $(function() {
+        $("#workfile").on('keypress', function(event) {
+            if (event.which == 13 || event.which == 32) {
+                $.post("/parse/", $("#workfile").val(), function(returndata) {
+                    $("#parser_output").html(returndata)
+                })
+            }
+        });
+    })
+</script>
+
+</html>

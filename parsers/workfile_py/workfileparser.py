@@ -4,22 +4,14 @@ import re
 import sys
 
 class Project:
-	name = None
-	namespace = None
-	users = []
-	groups = []
-	milestones = []
-	deadline = None
-	desc = []
-
-	def __init__(self, namespace=None, name=None, users=[], groups=[], milestones=[], deadline=None, desc=[]):
+	def __init__(self, namespace=None, name=None):
 		self.namespace = namespace
 		self.name = name
-		self.users = users
-		self.groups = groups
-		self.milestones = milestones
-		self.deadline = deadline
-		self.desc = desc
+		self.users = []
+		self.groups = []
+		self.milestones = []
+		self.deadline = None
+		self.desc = []
 
 	def serialize(self):
 		dump = dict(namespace=self.namespace, name=self.name, users=self.users, groups=self.groups, deadline=self.deadline, desc="\n".join(self.desc))
@@ -30,14 +22,6 @@ class Project:
 		return dump
 
 class Milestone:
-	name = None
-	users = []
-	groups = []
-	deadline = None
-	priority = None
-	desc = []
-	tasks = []
-
 	def __init__(self, name):
 		self.name = name
 		self.users = []
@@ -55,14 +39,6 @@ class Milestone:
 		return dump
 
 class Task:
-	name = None
-	users = []
-	groups = []
-	deadline = None
-	priority = None
-	subtasks = []
-	desc = []
-
 	def __init__(self, name):
 		self.name = name
 		self.users = []
@@ -70,16 +46,13 @@ class Task:
 		self.deadline = None
 		self.priority = "Normal"
 		self.subtasks = []
+		self.desc = []
 
 	def serialize(self):
 		dump = dict(name=self.name, users=self.users, groups=self.groups, deadline=self.deadline, priority=self.priority, desc="\n".join(self.desc), subtasks=self.subtasks)
 		return dump
 
 class TokenParser:
-	project = None
-	task = None
-	milestone = None
-
 	TOKENS = {
 		'@u:' : 'users',
 		'@g:' : 'groups',
@@ -93,10 +66,15 @@ class TokenParser:
 		'**': 'comment' # In case * comment gets conflicted with the markdown, use ** as an alternate switch
 	}
 
-	_PARSER = None
-
 	def __init__(self):
+		self.__init_project()
+	
+	def __init_project(self):
 		self.project = Project()
+		self.task = None
+		self.milestone = None
+
+		self._PARSER = None
 
 	def regetattr(self, traversal):
 		attrs = traversal.split(".")
@@ -124,7 +102,7 @@ class TokenParser:
 		if not matches:
 			token = "desc"
 			data = workline
-		else:	
+		else:
 			switch, data = matches.groups()
 			token = self.TOKENS.get(switch.rstrip())
 
@@ -142,12 +120,14 @@ class TokenParser:
 		token_fn(data)
 
 	def parse_file(self, workdoc):
+		self.__init_project()
 		for line in workdoc.readlines():
 			self._parse_line(line)
 
 		return self.project.serialize()
 		
 	def parse_string(self, workfile_text):
+		self.__init_project()
 		for line in workfile_text.split('\n'):
 			self._parse_line(line)
 

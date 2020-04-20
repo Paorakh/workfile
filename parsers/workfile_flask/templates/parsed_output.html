@@ -1,0 +1,20 @@
+<pre class='prettyprint' style="height: 100px;"><code class="language-python">{{project_json}}</code></pre>
+
+
+<h1><span data-var='project.namespace'>{{project.namespace}} / <span data-var='project.name'>{{project.name}}</span></h1>
+<p data-var='project.desc'>
+    {% if project.desc %} {{project.desc}} {% endif %}
+</p>
+
+<div class="list-group">
+    {% for u in project.users %}
+    <div class="list-group-item">
+        {{u}}
+    </div>
+    {% endfor %}
+</div>
+
+<pre class='prettyprint'>{{project}}</pre>
+<pre>
+    {{payload}}
+    </pre>
