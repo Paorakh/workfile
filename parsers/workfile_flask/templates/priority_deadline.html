@@ -1,0 +1,14 @@
+<div class="row meta-priority-deadline">
+    <div class="col-sm-4">
+        <i class='fa fa-layer-group'></i>
+        <span data-var='{{node}}.priority' class='priority priority-{{priority}}'>{{priority|default('Normal', true)}}</span>
+    </div>
+    <div class="col-sm-4">
+        <i class='fa fa-clock-o'></i>
+        <span data-var='{{node}}.deadline.starts' class='deadline deadline-{{deadline.starts}}'> {{deadline.starts|default('n/a', true)}} </span>
+    </div>
+    <div class="col-sm-4">
+        <i class='fa fa-clock-o'></i>
+        <span data-var='{{node}}.deadline.ends' class='deadline deadline-{{deadline.ends}}'> {{deadline.ends|default('n/a', true)}} </span>
+    </div>
+</div>

@@ -1,7 +1,6 @@
 <h1><span data-var='project.namespace'>{{project.namespace}} </span> <span data-var='project.name'>{{project.name}}</span></h1>
-<strong data-var='project.priority' class='priority priority-{{project.priority}}'>[ {{project.priority|default('Normal', true)}} ]</strong>
-<strong data-var='project.deadline.starts' class='deadline deadline-{{project.deadline.starts}}'>[ {{project.deadline.starts|default('Open Timeline', true)}} ]</strong>
-<strong data-var='project.deadline.ends' class='deadline deadline-{{project.deadline.ends}}'>[ {{project.deadline.ends|default('Open Timeline', true)}} ]</strong> {% if project.desc %}
+
+{% with node='project', priority=project.priority, deadline=project.deadline %} {% include 'priority_deadline.html' %} {% endwith %} {% if project.desc %}
 <p data-var='project.desc'>
     {{project.desc}}
 </p>
@@ -18,25 +17,15 @@
     {% for milestone in project.milestones %}
     <div class='single-milestone card'>
         <div class="card-header" id='milestone_heading_{{loop.index}}'>
-            <div class="row">
-                <div class="col-sm-4">
-                    <span data-var='milestone.priority' class='priority priority-{{milestone.priority}}'>[ {{milestone.priority|default('Normal', true)}} ]</span>
-                </div>
-                <div class="col-sm-4">
-                    <span data-var='milestone.deadline.starts' class='deadline deadline-{{milestone.deadline.starts}}'>[ {{milestone.deadline.starts|default('Open Timeline', true)}} ]</span>
-                </div>
-                <div class="col-sm-4">
-                    <span data-var='milestone.deadline.ends' class='deadline deadline-{{milestone.deadline.ends}}'>[ {{milestone.deadline.ends|default('Open Timeline', true)}} ]</span>
-                </div>
+            <div class='section'>
+                {% with node='milestone', priority=milestone.priority, deadline=milestone.deadline %} {% include 'priority_deadline.html' %} {% endwith %}
             </div>
-
             <div class="row">
                 <div class="col-md-8">
                     <h2 data-var="milestone.name">
-                        <button class="btn btn-link mb-0 ml-0 p-0" type="button" data-toggle="collapse" data-target="#milestone_{{loop.index}}" aria-expanded="true">
-
-                {{milestone.name}}
-                </button>
+                        <a class="btn btn-link mb-0 ml-0 p-0" type="button" data-toggle="collapse" data-target="#milestone_{{loop.index}}" aria-expanded="true">
+                            {{milestone.name}}
+                        </a>
                     </h2>
                 </div>
                 <div class="col-md-4">

@@ -3,18 +3,7 @@
     <div class="tasks ml-2 list-group">
         {% for t in tasks %}
         <div class="task list-group-item" data-var='{{node}}.tasks'>
-            <div class="row">
-                <div class="col-sm-4">
-                    <span data-var='t.priority' class='priority priority-{{t.priority}}'>[ {{t.priority|default('Normal', true)}} ]</span>
-                </div>
-                <div class="col-sm-4">
-                    <span data-var='t.deadline.starts' class='deadline deadline-{{t.deadline.starts}}'>[ {{t.deadline.starts|default('Open Timeline', true)}} ]</span>
-                </div>
-                <div class="col-sm-4">
-                    <span data-var='t.deadline.ends' class='deadline deadline-{{t.deadline.ends}}'>[ {{t.deadline.ends|default('Open Timeline', true)}} ]</span>
-                </div>
-            </div>
-            {{t.name}} {% if t.desc %}
+            {% with node='task', priority=t.priority, deadline=t.deadline %} {% include 'priority_deadline.html' %} {% endwith %} {{t.name}} {% if t.desc %}
             <p>
                 {{t.desc}}
             </p>
@@ -23,12 +12,12 @@
                 {% with node='task', users=t.users, groups=t.groups %} {% include 'stakeholders.html' %} {% endwith %}
             </div>
             {% if t.subtasks %}
-            <div class="section">
+            <div class="section subtasks">
                 <label>Subtasks</label>
                 <ul>
                     {% for sub in t.subtasks %}
                     <li data-var='{{node}}.task.subtasks'>
-                        {{sub}}
+                        <label class='checkbox'><input type="checkbox" /> {{sub}}</label>
                     </li>
                     {% endfor %}
                 </ul>
