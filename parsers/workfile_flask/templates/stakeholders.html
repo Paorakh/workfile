@@ -1,0 +1,20 @@
+<div class="assignments">
+    {% if users or groups %} {% if users %}
+    <div class="users" data-var='{{node}}.users'>
+        <small>Users</small> {% for u in users %}
+        <span>
+                <i class="fa fa-user"></i>
+                <a href='#'>{{u}}</a>
+            </span> {% endfor %}
+    </div>
+    {% endif %} {% if groups %}
+    <div class="groups" data-var='{{node}}.users'>
+        <small>Groups</small> {% for g in groups %}
+        <span>
+                <i class="fa fa-users"></i>
+                    <a href='#'>{{g}}</a>
+                </span> {% endfor %}
+    </div>
+    {% endif %} {% else %}
+    <small>unassigned</small> {% endif %}
+</div>

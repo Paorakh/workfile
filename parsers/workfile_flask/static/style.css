@@ -1,5 +1,23 @@
 h1 {}
 
 p {
-    color: orange
+    color: #555555;
+}
+
+em {
+    color: purple
+}
+
+.wnode {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+span.wtip {
+    color: gray;
+    font-size: 10px;
+    display: block;
+    position: absolute;
+    bottom: 0;
 }

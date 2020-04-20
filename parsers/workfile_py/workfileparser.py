@@ -192,7 +192,11 @@ class TokenParser:
 		self.task = None
 
 	def process_deadline(self, data):
-		self._update_active_context_node("deadline", data)
+		if '>' in data:
+			starts, ends = data.split('>')
+		else:
+			starts, ends = None, data
+		self._update_active_context_node("deadline", {'starts': starts, 'ends': ends})
 
 	def process_priority(self, data):
 		self._update_active_context_node("priority", data)

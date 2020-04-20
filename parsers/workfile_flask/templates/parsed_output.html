@@ -1,20 +1,55 @@
-<pre class='prettyprint' style="height: 100px;"><code class="language-python">{{project_json}}</code></pre>
-
-
-<h1><span data-var='project.namespace'>{{project.namespace}} / <span data-var='project.name'>{{project.name}}</span></h1>
+<h1><span data-var='project.namespace'>{{project.namespace}} </span> <span data-var='project.name'>{{project.name}}</span></h1>
+<strong data-var='project.priority' class='priority priority-{{project.priority}}'>[ {{project.priority|default('Normal', true)}} ]</strong>
+<strong data-var='project.deadline.starts' class='deadline deadline-{{project.deadline.starts}}'>[ {{project.deadline.starts|default('Open Timeline', true)}} ]</strong>
+<strong data-var='project.deadline.ends' class='deadline deadline-{{project.deadline.ends}}'>[ {{project.deadline.ends|default('Open Timeline', true)}} ]</strong> {% if project.desc %}
 <p data-var='project.desc'>
-    {% if project.desc %} {{project.desc}} {% endif %}
+    {{project.desc}}
 </p>
+{% endif %}
 
-<div class="list-group">
-    {% for u in project.users %}
-    <div class="list-group-item">
-        {{u}}
+<div>
+    {% with node='project', users=project.users , groups=project.groups %} {% include 'stakeholders.html'%}{% endwith %}
+</div>
+<div>
+    {% with node='project', tasks=project.tasks %} {% include 'tasks.html' %} {% endwith %}
+</div>
+
+<div class="milestones accordion" id='project-milestones'>
+    {% for milestone in project.milestones %}
+    <div class='single-milestone card'>
+        <div class="card-header" id='milestone_heading_{{loop.index}}'>
+            <div class="row">
+                <div class="col-sm-4">
+                    <span data-var='milestone.priority' class='priority priority-{{milestone.priority}}'>[ {{milestone.priority|default('Normal', true)}} ]</span>
+                </div>
+                <div class="col-sm-4">
+                    <span data-var='milestone.deadline.starts' class='deadline deadline-{{milestone.deadline.starts}}'>[ {{milestone.deadline.starts|default('Open Timeline', true)}} ]</span>
+                </div>
+                <div class="col-sm-4">
+                    <span data-var='milestone.deadline.ends' class='deadline deadline-{{milestone.deadline.ends}}'>[ {{milestone.deadline.ends|default('Open Timeline', true)}} ]</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 data-var="milestone.name">
+                        <button class="btn btn-link mb-0 ml-0 p-0" type="button" data-toggle="collapse" data-target="#milestone_{{loop.index}}" aria-expanded="true">
+
+                {{milestone.name}}
+                </button>
+                    </h2>
+                </div>
+                <div class="col-md-4">
+                    {% with node='milestone', users=milestone.users , groups=milestone.groups %} {% include 'stakeholders.html'%} {% endwith %}
+                </div>
+            </div>
+        </div>
+
+        <div id="milestone_{{loop.index}}" class="collapse" aria-labelledby="milestone_heading_{{loop.index}}" data-parent="#project-milestones">
+            <div class='card-body'>
+                {% with node='milestone', tasks=milestone.tasks %} {% include 'tasks.html' %} {% endwith %}
+            </div>
+        </div>
     </div>
     {% endfor %}
 </div>
-
-<pre class='prettyprint'>{{project}}</pre>
-<pre>
-    {{payload}}
-    </pre>

@@ -23,10 +23,6 @@ def get_payload_and_project():
 	parser = workfileparser.TokenParser()
 	project = parser.parse_string(payload)
 
-	print(payload)
-
-	print(project['users'])
-
 	project_json = json.dumps(project, indent=4)
 
 	return payload, project, project_json
@@ -40,7 +36,6 @@ def workfile_html():
 def workfile_parser():
 	payload, project, project_json = get_payload_and_project()
 	return render_template("./parsed_output.html", project=project, payload=payload, project_json=project_json)
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000) #run app in debug mode on port 5000

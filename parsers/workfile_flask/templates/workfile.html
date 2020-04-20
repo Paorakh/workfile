@@ -6,27 +6,33 @@
     <link rel=stylesheet type='text/css' href='/static/style.css' />
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://kit.fontawesome.com/92a48a3ae0.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
 </head>
 
 <body>
     <section>
-        <div class="container-fluid jumbotron" style="padding:20px;">
-            <div class="row">
-                <div class="col-md-12">
-                    <strong># Workfile parser</strong> / <small>Sample flask project</small>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section style="height:500px">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
+                    <div class="container-fluid jumbotron" style="padding:20px;">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <strong># Workfile parser</strong> / <small>Sample flask project</small>
+                            </div>
+                            <div class="col-md-4">
+                                <a href='javascript:toggle_vars()'>Toggle vars</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <form class="form">
                         <textarea id='workfile' class="form-control" style="height:500px">{{rawdata}}</textarea>
                     </form>
-
                 </div>
                 <div class="col-md-6" id='parser_output'>
                     {% include 'parsed_output.html' %}
@@ -35,7 +41,14 @@
     </section>
 </body>
 <script type='text/javascript'>
+    function toggle_vars() {
+        $(".wtip").toggle();
+    }
     $(function() {
+        $("[data-var]").each(function() {
+            $(this).prepend("<span class='wtip'>" + $(this).data('var') + "</span>");
+            $(this).addClass('wnode');
+        });
         $("#workfile").on('keypress', function(event) {
             if (event.which == 13 || event.which == 32) {
                 $.post("/parse/", $("#workfile").val(), function(returndata) {
@@ -43,6 +56,10 @@
                 })
             }
         });
+
+        // $(".coll")
+
+        $("#project-milestones .collapse").collapse('show');
     })
 </script>
 
