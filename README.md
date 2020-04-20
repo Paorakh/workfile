@@ -1,5 +1,6 @@
 # What is a workfile
-Workfile is a project specification file with extension __.work__. 
+Workfile is a project specification file with extension __.work__ or __.workfile__
+*In the future, for different usecases of Workfiles, separate extensions shall be recommended. *
 
 It is a Markdown compatible text file, that contains an overall project milestones including assignments, priorities, deadlines, tasks etc in a single text file. 
 
