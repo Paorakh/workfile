@@ -114,32 +114,41 @@ class TokenParser:
 
 		return self._PARSER
 
-	def parse(self, workdoc):
+	def _parse_line(self, workline):
+		workline = workline.rstrip()
+		if not workline:
+			return
+
+		matches = self.regex_parser.match(workline)
+		if not matches:
+			token = "desc"
+			data = workline
+		else:	
+			switch, data = matches.groups()
+			token = self.TOKENS.get(switch.rstrip())
+
+			# Markdown compatibility for subtasks
+			if token is None:
+				token = "subtasks"
+			elif token == "comment":
+				# comments are igored
+				return
+
+		token_fn = getattr(self, f"process_{token}")
+		if token != 'project' and self.project.name is None:
+			raise ValueError("Project needs to be defined first")
+
+		token_fn(data)
+
+	def parse_file(self, workdoc):
 		for line in workdoc.readlines():
-			cline = line.rstrip()
-			if not cline:
-				continue
-			
-			matches = self.regex_parser.match(cline)
-			if not matches:
-				token = "desc"
-				data = cline
-			else:	
-				switch, data = matches.groups()
-				token = self.TOKENS.get(switch.rstrip())
+			self._parse_line(line)
 
-				# Markdown compatibility for subtasks
-				if token is None:
-					token = "subtasks"
-				elif token == "comment":
-					# comments are igored
-					continue
-
-			token_fn = getattr(self, f"process_{token}")
-			if token != 'project' and self.project.name is None:
-				raise ValueError("Project needs to be defined first")
-
-			token_fn(data)
+		return self.project.serialize()
+		
+	def parse_string(self, workfile_text):
+		for line in workfile_text.split('\n'):
+			self._parse_line(line)
 
 		return self.project.serialize()
 	
@@ -220,6 +229,6 @@ if __name__ == "__main__":
 		raise ValueError("Unable to open / read the file")
 
 	tokenparser = TokenParser()
-	project_dump = tokenparser.parse(workdoc)
+	project_dump = tokenparser.parse_file(workdoc)
 	print(project_dump)
 	#print(json.dumps(project_dump, indent=2))
