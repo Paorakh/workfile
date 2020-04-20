@@ -1,5 +1,6 @@
 # What is a workfile
-Workfile is a project specification file with extension __.work__. 
+Workfile is a project specification file with extension __.work__ or __.workfile__
+*In the future, for different usecases of Workfiles, separate extensions shall be recommended. *
 
 It is a Markdown compatible text file, that contains an overall project milestones including assignments, priorities, deadlines, tasks etc in a single text file. 
 
@@ -43,6 +44,7 @@ Tokens define the grammar of a workfile.
 | $ 	| Priority 	| $ High 	|
 | - 	| A task 	| - Vendor Finalizing 	|
 | `whitespace (space or tab)` - 	| A subtask 	| (should begin with a whitespace) - Vendor Assessment |
+| ** | A line of comment | ** This is a comment | 
 
 
 ## Parser
@@ -53,10 +55,10 @@ Few parsers available. Looking for contributors who find .workfile as one good w
 ## Sample workfile
 Some of the sample workfiles are available in this repo. A simple workfile looks like :
 ```
-* A sample workfile
-* This is a comment
-* Comment is ignored by parsers
-* Comments start with a `*` character
+** A sample workfile
+** This is a comment
+** Comment is ignored by parsers
+** Comments start with a `*` character
 
 # Namespace/ProjectName
 @u:someuser
@@ -69,7 +71,7 @@ Project description text ...
 Project description text second line
 project description text third line
 
-* Tasks
+** Tasks
 - Task 1
   - subtask 1.1
   - subtask 1.2
@@ -79,10 +81,10 @@ project description text third line
 ## Another milestone
 > milestone-deadline
 
-* Desc
+** Desc
 milestone description text (singleline)
 
-* Tasks
+** Tasks
 - Task 5
 - Task 6
   - subtask 6.2
