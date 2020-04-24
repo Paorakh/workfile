@@ -21,16 +21,18 @@
                 <div class="col-md-6">
                     <div class="container-fluid jumbotron" style="padding:20px;">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <strong># Workfile parser</strong> / <small>Sample flask project</small>
-                            </div>
-                            <div class="col-md-4">
-                                <a href='javascript:toggle_vars()'>Toggle vars</a>
+                                <br />
+                                <a href='javascript:toggle_vars()'>Toggle vars</a> |
+                                <a href='javascript:save_file()'>Save File</a> |
+                                <a href='javascript:load_file()'>Load a saved File</a> |
                             </div>
                         </div>
                     </div>
 
                     <form class="form">
+                        <div id='parser_error' class='alert'></div>
                         <textarea id='workfile' class="form-control" style="height:500px">{{rawdata}}</textarea>
                     </form>
                 </div>
@@ -44,6 +46,28 @@
     function toggle_vars() {
         $(".wtip").toggle();
     }
+
+    function load_file() {
+        var filename = prompt("Please enter your filename", "{{random_filename}}");
+        if (filename != null) {
+            $.post("/load/", {
+                'filename': filename
+            }, function(returndata) {
+                $("#workfile").val(returndata);
+            });
+        }
+    }
+
+
+    function save_file() {
+        var filename = prompt("Please enter your filename", "{{random_filename}}");
+        if (filename != null) {
+            $.post("/save/", {
+                'content': $("#workfile").val(),
+                'filename': filename
+            }, function(returndata) {});
+        }
+    }
     $(function() {
         $("[data-var]").each(function() {
             $(this).prepend("<span class='wtip'>" + $(this).data('var') + "</span>");
@@ -51,13 +75,15 @@
         });
         $("#workfile").on('keypress', function(event) {
             if (event.which == 13 || event.which == 32) {
+                $("#parser_error").html("Parsing ... ");
                 $.post("/parse/", $("#workfile").val(), function(returndata) {
-                    $("#parser_output").html(returndata)
-                })
+                    $("#parser_output").html(returndata);
+                    $("#parser_error").html("OK");
+                }).fail(function(xhr) {
+                    $("#parser_error").html("<strong>" + xhr.statusText + "</strong> " + xhr.responseText);
+                });
             }
         });
-
-        // $(".coll")
 
         $("#project-milestones .collapse").collapse('show');
     })
