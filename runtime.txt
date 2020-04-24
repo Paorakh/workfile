@@ -1,1 +1,2 @@
-python-3.7
+# Heroku python runtime
+python-3.7.5
