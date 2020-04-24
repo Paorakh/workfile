@@ -1,5 +1,6 @@
 ## Running this file
-python sample.py
+- go to root directory of this repo
+- run python wsgi.py
 
 ## Requirements
 - flask runtime
