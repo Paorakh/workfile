@@ -68,16 +68,22 @@
             }, function(returndata) {});
         }
     }
-    $(function() {
+
+function add_vars(){
         $("[data-var]").each(function() {
             $(this).prepend("<span class='wtip'>" + $(this).data('var') + "</span>");
             $(this).addClass('wnode');
         });
+}
+    $(function() {
+	add_vars();
         $("#workfile").on('keypress', function(event) {
             if (event.which == 13 || event.which == 32) {
                 $("#parser_error").html("Parsing ... ");
                 $.post("/parse/", $("#workfile").val(), function(returndata) {
                     $("#parser_output").html(returndata);
+			add_vars();
+			$("#parser_output .collapse").collapse('show');
                     $("#parser_error").html("OK");
                 }).fail(function(xhr) {
                     $("#parser_error").html("<strong>" + xhr.statusText + "</strong> " + xhr.responseText);
@@ -85,7 +91,7 @@
             }
         });
 
-        $("#project-milestones .collapse").collapse('show');
+	$("#parser_output .collapse").collapse('show');
     })
 </script>
 
