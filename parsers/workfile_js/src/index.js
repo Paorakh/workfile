@@ -1,7 +1,8 @@
 const { Parser } = require('./parser.js')
 
 
-var path = "/home/aaeronn/Desktop/dhrubadai/example/sample.txt"
+var path = "/home/aaeronn/Documents/dhrubadai/workfile/examples/01.basicsample.work"
 
 prs = new Parser(path)
-console.log(prs.parse())
+data = prs.parse()
+console.log(data)
