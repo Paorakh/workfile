@@ -25,24 +25,30 @@
                                 <strong># Workfile parser</strong> / <small>Sample flask project</small>
                                 <br />
                                 <a href='javascript:toggle_vars()'>Toggle vars</a> |
-                                <a href='javascript:save_file()'>Save File</a> |
-                                <a href='javascript:load_file()'>Load a saved File</a> |
+                                <!-- <a href='javascript:save_file()'>Save File</a> | -->
+                                <!-- <a href='javascript:load_file()'>Load a saved File</a> | -->
+                                <a href='javascript:download_file()'>Download workFile</a> |
+                                <a href='javascript:split_file()' id='split_link'>Split milestones</a>
                             </div>
                         </div>
                     </div>
 
-                    <form class="form">
-                        <div id='parser_error' class='alert'></div>
-                        <textarea id='workfile' class="form-control" style="height:500px">{{rawdata}}</textarea>
+                    <form class="form" id="workfile-editor" style='overflow:auto; height:800px;'>
+                        <div id='parser_error' class='parser-error alert'></div>
+                        <textarea id='workfile' class="workfile form-control" style="height:500px">{{rawdata}}</textarea>
+                        <div id='splits'></div>
                     </form>
                 </div>
-                <div class="col-md-6" id='parser_output'>
+                <div class="col-md-6" id='parser_output' style='overflow:auto; height:800px;'>
                     {% include 'parsed_output.html' %}
                 </div>
             </div>
     </section>
+    <a href="#" id='download' type='text/plain' class="hidden"></a>
 </body>
 <script type='text/javascript'>
+    var split_mode = false;
+
     function toggle_vars() {
         $(".wtip").toggle();
     }
@@ -69,29 +75,86 @@
         }
     }
 
-function add_vars(){
+    function download_file() {
+        var content = "";
+        if (split_mode) {
+            $("#splits .workfile").each(function() {
+                content += $(this).val();
+            });
+        } else {
+            content = $("#workfile").val();
+        }
+        var filename = $("#parser_output > h1").data("project") + ".workfile.txt";
+        $("a#download").attr("href", "data:text/plain;base64," + btoa(content)).attr('download', filename);
+        $("#download").get(0).click();
+    }
+
+    function split_file() {
+        var workfile = $("#workfile").val();
+        var pcs = workfile.split(new RegExp('\\n##\\s+', 'g'));
+        var proj = pcs[0];
+        var milestones = new Array();
+
+        for (var i = 0; i < pcs.length; i++) {
+            var domrow = $("<div class='row'></div>");
+            domrow.append("<div class='col-md-12'><strong>" + (i == 0 ? "Project" : "Milestone") + "</strong></div>");
+            domrow.append("<div class='col-md-12'><strong style='color:red' class='parser-error' id='parser-error-" + i + "'></strong></div>");
+            var dom = $("<div class='col-md-12'></div>");
+
+            var dom1 = $("<textarea class='workfile form-control' data-workfile='" + i + "' rows=5 id='workfile_" + i + "'></textarea>");
+            dom1.val(i == 0 ? pcs[i] : "## " + pcs[i]);
+            dom.append(dom1);
+            domrow.append(dom);
+            $("#workfile-editor #splits").append(domrow);
+        }
+        $("#workfile").hide();
+        $("#split_link").hide();
+
+        split_mode = true;
+        $(".workfile").on('keypress', function(event) {
+            if (event.which == 13 || event.which == 32) {
+                var workfile_id = $(this).data("workfile");
+                var content = $(this).attr("id") == "workfile_0" ? $("#workfile_0").val() : $("#workfile_0").val() + "\n\n" + $(this).val();
+                parsing(content, $("#parser-error-" + workfile_id));
+            }
+        });
+
+        $(".workfile").on('focus', function(event) {
+            var workfile_id = $(this).data("workfile");
+            var content = $(this).attr("id") == "workfile_0" ? $("#workfile_0").val() : $("#workfile_0").val() + "\n\n" + $(this).val();
+            parsing(content, $("#parser-error-" + workfile_id));
+        });
+    }
+
+    function add_vars() {
         $("[data-var]").each(function() {
             $(this).prepend("<span class='wtip'>" + $(this).data('var') + "</span>");
             $(this).addClass('wnode');
         });
-}
+    }
+
+    function parsing(content, context) {
+        $(context).html("Parsing ... ");
+        $.post("/parse/", content, function(returndata) {
+            $("#parser_output").html(returndata);
+            add_vars();
+            $("#parser_output .collapse").collapse('show');
+            $(context).html("OK");
+        }).fail(function(xhr) {
+            $(context).html("<strong>" + xhr.statusText + "</strong> " + xhr.responseText);
+        });
+    }
+
     $(function() {
-	add_vars();
+        add_vars();
         $("#workfile").on('keypress', function(event) {
             if (event.which == 13 || event.which == 32) {
-                $("#parser_error").html("Parsing ... ");
-                $.post("/parse/", $("#workfile").val(), function(returndata) {
-                    $("#parser_output").html(returndata);
-			add_vars();
-			$("#parser_output .collapse").collapse('show');
-                    $("#parser_error").html("OK");
-                }).fail(function(xhr) {
-                    $("#parser_error").html("<strong>" + xhr.statusText + "</strong> " + xhr.responseText);
-                });
+                var content = $("#workfile").val();
+                parsing(content, $("#parser_error"));
             }
         });
 
-	$("#parser_output .collapse").collapse('show');
+        $("#parser_output .collapse").collapse('show');
     })
 </script>
 

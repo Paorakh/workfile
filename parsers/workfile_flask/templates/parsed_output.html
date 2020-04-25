@@ -1,4 +1,4 @@
-<h1><span data-var='project.namespace'>{{project.namespace}} </span> <span data-var='project.name'>{{project.name}}</span></h1>
+<h1 data-project="{% if project.namespace %}{{project.namespace}} / {% endif %}{{project.name}}"><span data-var='project.namespace'>{{project.namespace}} </span> <span data-var='project.name'>{{project.name}}</span></h1>
 
 {% with node='project', priority=project.priority, deadline=project.deadline %} {% include 'priority_deadline.html' %} {% endwith %} {% if project.desc %}
 <p data-var='project.desc'>
@@ -36,7 +36,8 @@
 
         <div id="milestone_{{loop.index}}" class="collapse" aria-labelledby="milestone_heading_{{loop.index}}" data-parent="#project-milestones">
             <div class='card-body'>
-                {% with node='milestone', tasks=milestone.tasks %} {% include 'tasks.html' %} {% endwith %}
+                {% if milestone.desc %}
+                <p class='text-muted'><strong>Description : </strong>{{milestone.desc}}</p>{% endif %} {% with node='milestone', tasks=milestone.tasks %} {% include 'tasks.html' %} {% endwith %}
             </div>
         </div>
     </div>
