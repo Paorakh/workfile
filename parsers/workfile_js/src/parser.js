@@ -64,7 +64,7 @@ class Parser {
 
 	performPriority(obj, data) {
 		var obj = this.getObjFor() || obj
-		obj.priority = data
+		obj.priority = normalize(data)
 	}
 
 	performDescription(obj, data) {
