@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "The root schema",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "required": [
+    "namespace",
+    "name",
+    "users",
+    "groups",
+    "desc",
+    "deadline",
+    "priority",
+    "milestones"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "deadline": {
+      "$id": "#/definitions/deadline",
+      "type": "object",
+      "description": "Start date and End Date of a project, milestone or a task",
+      "properties": {
+        "starts": {
+          "type": "date"
+        },
+        "ends": {
+          "type": "date"
+        }
+      },
+      "additionalItems": false
+    },
+    "desc": {
+      "$id": "#/definitions/desc",
+      "type": "string",
+      "description": "Detail information of a project, milestone or a task"
+    },
+    "users": {
+      "$id": "#/definitions/users",
+      "type": "array",
+      "description": "Members who are direct stakeholders in a project",
+      "additionalItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "groups": {
+      "$id": "#/definitions/groups",
+      "type": "array",
+      "description": "Project can have a group of people as members.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "priority": {
+      "$id": "#/definitions/priority",
+      "type": "string",
+      "description": "Priority of a project, milestone or a task",
+      "enum": [
+        "Normal",
+        "Medium",
+        "High",
+        "Critical",
+        "Emergency"
+      ]
+    },
+    "status": {
+      "$id": "#/definitions/status",
+      "type": "string",
+      "description": "Status of completion of a project, milestone or a task",
+      "enum": [
+        "Pending",
+        "Started",
+        "On Hold",
+        "Completed",
+        "Cancelled"
+      ]
+    },
+    "milestones": {
+      "$id": "#/definitions/milestones",
+      "items": {
+        "users": {
+          "$ref": "#/definitions/users"
+        },
+        "groups": {
+          "$ref": "#/definitions/groups"
+        },
+        "deadline": {
+          "$ref": "#/definitions/deadline"
+        },
+        "priority": {
+          "$ref": "#/definitions/priority"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "desc": {
+          "$ref": "#/definitions/desc"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tasks"
+          }
+        }
+      }
+    },
+    "tasks": {
+      "$id": "#/definitions/tasks",
+      "items": {
+        "users": {
+          "$ref": "#/definitions/users"
+        },
+        "groups": {
+          "$ref": "#/definitions/groups"
+        },
+        "deadline": {
+          "$ref": "#/definitions/deadline"
+        },
+        "priority": {
+          "$ref": "#/definitions/priority"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "desc": {
+          "$ref": "#/definitions/desc"
+        },
+        "subtasks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "namespace": {
+      "$id": "#/properties/namespace",
+      "type": "string",
+      "description": "Every project shall be under a namespace. Namespace can be something like a Department Name, Parent Project name, etc."
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "description": "The name of the project"
+    },
+    "users": {
+      "$ref": "#/definitions/users"
+    },
+    "groups": {
+      "$ref": "#/definitions/groups"
+    },
+    "deadline": {
+      "$ref": "#/definitions/deadline"
+    },
+    "priority": {
+      "$ref": "#/definitions/priority"
+    },
+    "status": {
+      "$ref": "#/definitions/status"
+    },
+    "milestones": {
+      "$id": "#/properties/milestones",
+      "type": "array",
+      "title": "The milestones schema",
+      "description": "A project should consist of at-least one milestone. A milestone is a collection of tasks and can have its own deadline, stakeholders, etc",
+      "items": {
+        "$ref": "#/definitions/milestones"
+      },
+      "minimum": 1
+    }
+  }
+}
