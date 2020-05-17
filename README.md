@@ -11,6 +11,9 @@ There are several project management tools available today. Each one has its pro
 __We go on a shopping with a shopping list.__ Workfile starts with something as simple as a text file where you simply remember and list down the things you want to do.
 __Workfile__ is inspired by that instinct.
 
+## Portability
+Want to move a project file from a product to another ? Workfile specification can be for one of those several usecases. 
+
 ## Demo Setup (Heroku)
 [https://workfile.herokuapp.com/](https://workfile.herokuapp.com/)
 
