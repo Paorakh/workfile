@@ -204,6 +204,7 @@ class TokenParser:
 
 	def process_desc(self, data):
 		self._update_active_context_node("desc", data)
+		
 
 if __name__ == "__main__":
 	try:
