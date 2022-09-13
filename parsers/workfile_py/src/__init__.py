@@ -1,4 +1,4 @@
-from .workfileparser import TokenParser
+from .workfile import TokenParser
 
 def loads(workfile):
     return TokenParser.parse_string(workfile)
