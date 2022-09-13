@@ -24,8 +24,8 @@ Tokens define the grammar of a workfile.
 | Workfile Token 	| Corresponding project parameter 	| Query Params 	|
 |----------------	|-----------------------------------------------	|----------------------------------------------------------------------------	|
 | # 	| Namespace or Project Name 	| # Sysadmin / Hardware Upgrade and Migration 	|
-| @u: 	| User, whom the task / project is assigned to 	| @u:johndoe 	|
-| @g: 	| Group, whom the task / project is assigned to 	| @g:sysadmin 	|
+| @ 	| User, whom the task / project is assigned to 	| @johndoe 	|
+| @@ 	| Group, whom the task / project is assigned to 	| @@sysadmin 	|
 | > 	| Starting date or Deadline 	| > 2020-04-11 > 2020-04-30 	|
 | `no token` | A line in any paragraph (desc) 	| (No token means a description text). ... 	|
 | ## 	| Milestone 	| ## Hardware Procurement 	|
@@ -44,8 +44,8 @@ Some of the sample workfiles are available in this repo. A simple workfile looks
 ** Comments start with a `*` character
 
 # Namespace/ProjectName
-@u:someuser
-@g:somegroup
+@someuser
+@@somegroup
 > startdate > deadline
 
 ## A milestone
