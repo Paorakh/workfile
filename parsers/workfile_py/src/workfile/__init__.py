@@ -1,7 +1,9 @@
 from .workfile import TokenParser
 
 def loads(workfile):
-    return TokenParser.parse_string(workfile)
+    parser = TokenParser()
+    return parser.parse_string(workfile)
 
 def load(workfile):
-    return TokenParser.parse_file(workfile)
+    parser = TokenParser()
+    return parser.parse_file(workfile)
