@@ -2,3 +2,6 @@ __pycache__
 __target__
 *.code-workspace
 parsers/workfile_flask/saved_files/
+*.egg-info/
+dist/*.tar.gz
+dist/
