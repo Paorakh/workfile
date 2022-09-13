@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='workfile-py',
-    version='0.1',
+    version='0.0.2',
     license='MIT',
     author="acpmasquerade",
     author_email='acpmasquerade@gmail.com',
