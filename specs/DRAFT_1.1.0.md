@@ -8,6 +8,7 @@
 - Each line in a workfile has a distinct purpose. It has to be one of the variables that defines a project
 - The spec follows the syntax as __TOKEN_CHARACTER__ <space> *Corresponding information* eg. `# Namespace / Project Name`, `@username`, etc
 - Multiline description is supported. Each line starting without any special token represents the description and description is supported by projects, tasks and milestones
+ - Indententation is ignored. However recommeded for legibility 
   
 ## Terminology
 - **Namespace** : Department or something similar
@@ -31,7 +32,8 @@ Tokens define the grammar of a workfile.
 | ## 	| Milestone 	| ## Hardware Procurement 	|
 | $ 	| Priority 	| $ High 	|
 | - 	| A task 	| - Vendor Finalizing 	|
-| `whitespace (space or tab)` - 	| A subtask 	| (should begin with a whitespace) - Vendor Assessment |
+| -- 	| A subtask 	| -- Vendor Assessment |
+| -- -- | Another subtask under a subtask | -- -- Any level of subtask can be created |
 | ** | A line of comment | ** This is a comment | 
 
 
@@ -56,8 +58,8 @@ project description text third line
 
 ** Tasks
 - Task 1
-  - subtask 1.1
-  - subtask 1.2
+  -- subtask 1.1
+  -- subtask 1.2
 - Task 2
 - Task 3
 
@@ -70,7 +72,7 @@ milestone description text (singleline)
 ** Tasks
 - Task 5
 - Task 6
-  - subtask 6.2
+  -- subtask 6.2
 ```
 
 ## Limitations
