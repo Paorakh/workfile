@@ -2,6 +2,7 @@
 
 import re
 import sys
+import pprint
 
 class Project:
 	def __init__(self, namespace=None, name=None):
@@ -54,8 +55,8 @@ class Task:
 
 class TokenParser:
 	TOKENS = {
-		'@u:' : 'users',
-		'@g:' : 'groups',
+		'@@' : 'groups',
+		'@' : 'users',
 		'$' : 'priority',
 		'##' : 'milestones',
 		'#' : 'project',
@@ -87,7 +88,7 @@ class TokenParser:
 		if self._PARSER is not None:
 			return self._PARSER
 
-		TOKENS_REGEX='(@u:|@g:)\>(#|##)\!(\*\*?)\-(\s+\-)\$'
+		TOKENS_REGEX='(@|@@)\>(#|##)\!(\*\*?)\-(\s+\-)\$'
 		REGEX = f'^([{TOKENS_REGEX}]+)\s*(.*)$'
 		self._PARSER = re.compile(REGEX)
 
@@ -181,7 +182,7 @@ class TokenParser:
 
 	def process_subtasks(self, data):
 		if self.task is None:
-			raise ValueError("A subtask needs a parent task")
+			raise ValueError(f"A subtask needs a parent task {data}")
 		self._update_active_context_node("subtasks", data)
 
 	def process_milestones(self, data):
@@ -203,6 +204,7 @@ class TokenParser:
 
 	def process_desc(self, data):
 		self._update_active_context_node("desc", data)
+		
 
 if __name__ == "__main__":
 	try:
@@ -215,5 +217,6 @@ if __name__ == "__main__":
 
 	tokenparser = TokenParser()
 	project_dump = tokenparser.parse_file(workdoc)
-	print(project_dump)
-	#print(json.dumps(project_dump, indent=2))
+	
+	pp = pprint.PrettyPrinter(indent=2)
+	pp.pprint(project_dump)

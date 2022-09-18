@@ -5,9 +5,9 @@
 
 # Paorakh / workfiles
 
-@u:acpmasquerade
-@u:aaeronn
-@g:developers
+@acpmasquerade
+@aaeronn
+@@developers
 
 ## Cracking the Lorem
 $ High
@@ -28,15 +28,15 @@ It is a long established fact that a reader will be distracted by the readable c
 $ Medium
 > 2020-01-01
 
-@u:acp21
-@u:acp22
-@g:marketing
+@acp21
+@acp22
+@@marketing
 
 Sample description
 
 - Task 3.1
 Some task description goes here
-@u:mango
+@mango
 	- subtask 3.1.1
 
 - Task 3.2
