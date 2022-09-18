@@ -19,6 +19,7 @@
 - **Users** : Direct members involved in a project, milestone or task eg. @johndoe
 - **Groups** : The set of predefined members involved in a project eg. managers
 - **Priority** : A descriptive word to define the intensity of a job eg. high, low, etc
+- **Status** : A progress status for any task, subtask and milestone
 
 ## Tokens
 Tokens define the grammar of a workfile.
@@ -34,6 +35,7 @@ Tokens define the grammar of a workfile.
 | - 	| A task 	| - Vendor Finalizing 	|
 | -- 	| A subtask 	| -- Vendor Assessment |
 | -- -- | Another subtask under a subtask | -- -- Any level of subtask can be created |
+| ! | Status | ! Closed , ! Pending |
 | ** | A line of comment | ** This is a comment | 
 
 ## Other conventions
@@ -55,6 +57,7 @@ Some of the sample workfiles are available in this repo. A simple workfile looks
 
 ## A milestone
 $ Priority
+! Pending
 Project description text ...
 Project description text second line
 project description text third line
@@ -78,6 +81,7 @@ milestone description text (singleline)
 - Task 5
 - Task 6
   -- subtask 6.2
+     ! Closed
 ```
 
 ## Limitations
