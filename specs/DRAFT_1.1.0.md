@@ -36,6 +36,9 @@ Tokens define the grammar of a workfile.
 | -- -- | Another subtask under a subtask | -- -- Any level of subtask can be created |
 | ** | A line of comment | ** This is a comment | 
 
+## Other conventions
+- Namespace / Project don't have priorities, deadlines, etc
+- Milestones don't have priorities but can have deadlines
 
 ## Sample workfile
 Some of the sample workfiles are available in this repo. A simple workfile looks like :
