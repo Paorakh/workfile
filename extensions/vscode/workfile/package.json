@@ -1,0 +1,25 @@
+{
+  "name": "workfile",
+  "displayName": "workfile",
+  "description": "Workfile - Project Markdown",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "workfile",
+      "aliases": ["Workfile", "workfile"],
+      "extensions": [".workfile"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "workfile",
+      "scopeName": "source.markdown",
+      "path": "./syntaxes/workfile.tmLanguage.json"
+    }]
+  }
+}
