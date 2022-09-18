@@ -1,0 +1,6 @@
+{
+    "key": "alt+shift+i",
+    "command": "editor.action.inspectTMScopes",
+    "workbench.settings.openDefaultKeybindings": false
+  }
+  

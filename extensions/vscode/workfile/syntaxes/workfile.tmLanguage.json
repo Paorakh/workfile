@@ -3,30 +3,45 @@
 	"name": "Workfile",
 	"patterns": [
 		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
+			"include": "#project"
 		}
 	],
 	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.workfile",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.workfile",
-			"begin": "\"",
-			"end": "\"",
+		"project": {
+			"match": "^(#)\\s+(.*?)(\\/\\s*(.*)).$",
+			"captures": {
+				"1": {
+					"patterns": [
+						{
+							"match": "^(#)\\s+(.*?)(\\/\\s*(.*)).$",
+							"name": "namespace.workfile",
+							"captures": {
+								"1": {
+									"name": "token.definition.namespace.workfile"
+								},
+								"2": {
+									"name": "entity.name.namespace.workfile",
+									"patterns": [
+										{
+											"include": "#inline"
+										},
+										{
+											"include": "text.html.derivative"
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			},
+			"name": "markup.namespace.workfile",
 			"patterns": [
 				{
-					"name": "constant.character.escape.workfile",
-					"match": "\\\\."
+					"include": "#inline"
 				}
 			]
 		}
 	},
-	"scopeName": "source.markdown"
+	"scopeName": "text.htmls.markdown"
 }

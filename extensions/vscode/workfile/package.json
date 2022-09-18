@@ -10,16 +10,42 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [{
-      "id": "workfile",
-      "aliases": ["Workfile", "workfile"],
-      "extensions": [".workfile"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "workfile",
-      "scopeName": "source.markdown",
-      "path": "./syntaxes/workfile.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "workfile",
+        "aliases": [
+          "Workfile",
+          "workfile"
+        ],
+        "extensions": [
+          ".workfile",
+          ".work"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "workfile",
+        "scopeName": "html.markdown",
+        "path": "./syntaxes/workfile.tmLanguage.json"
+      }
+    ],
+    "semanticTokenTypes": [
+      {
+        "id": "token", 
+        "description": "Workfile tokens"
+      }
+    ],
+    "colors": [
+      {
+        "id": "token",
+        "description": "Workfile tokens",
+        "defaults": {
+          "dark": "errorForeground",
+          "light": "errorForeground"
+        }
+      }
+    ]
   }
 }
